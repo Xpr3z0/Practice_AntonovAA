@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Сеть аптек</string>
+    <string-array name="table_names">
+        <item>Аптеки</item>
+        <item>Препараты</item>
+        <item>Учет</item>
+    </string-array>
+</resources>

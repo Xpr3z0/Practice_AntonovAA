@@ -1,37 +1,5 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'java'
-    id 'application'
-}
-apply plugin: 'java'
-apply plugin: 'application'
-
-group 'lpz.Main'
-version '1.0-SNAPSHOT'
-
-mainClassName = "lpz.Main"
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation 'postgresql:postgresql:9.1-901-1.jdbc4'
-}
-
-jar {
-    manifest.attributes("Main-Class": mainClassName);
-    baseName = 'ExampleJDBC'
-    version = '1.1.0'
-}
-
-
-task myJavadocs(type: Javadoc) {
-    source = sourceSets.main.allJava
-}
-
-test {
-    useJUnitPlatform()
+    id 'com.android.application' version '7.4.2' apply false
+    id 'com.android.library' version '7.4.2' apply false
 }
