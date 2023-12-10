@@ -25,8 +25,8 @@ public class DialogUpdateRecordsController implements Initializable {
     @FXML
     public RadioButton buyRB;
     public Button idBottomAdd;
-    public ChoiceBox<String> storeAdressChoice;
-    public ChoiceBox<String> bookNameChoice;
+    public ChoiceBox<String> pharmacyAdressChoice;
+    public ChoiceBox<String> medicineChoice;
     public Label valueLabel;
     public TextField currentValueTF;
     private Connection connection = null;
@@ -65,34 +65,33 @@ public class DialogUpdateRecordsController implements Initializable {
         sellRB.setSelected(true);
 
         sellRB.setOnAction(event -> {
-            valueLabel.setText("Количество книг для продажи");
+            valueLabel.setText("Количество для продажи");
         });
 
         buyRB.setOnAction(event -> {
-            valueLabel.setText("Количество книг для поступления");
+            valueLabel.setText("Количество для поступления");
         });
 
-        storeAdressChoice.getItems().addAll(storeList);
-        bookNameChoice.getItems().addAll(bookList);
+        pharmacyAdressChoice.getItems().addAll(storeList);
+        medicineChoice.getItems().addAll(bookList);
 
-        storeAdressChoice.setOnAction(event -> {
-            getValueOfBooks();
+        pharmacyAdressChoice.setOnAction(event -> {
+            getValueOfMedicine();
         });
-        bookNameChoice.setOnAction(event -> {
-            getValueOfBooks();
+        medicineChoice.setOnAction(event -> {
+            getValueOfMedicine();
         });
 
         if (!usingEmptyConstructor) {
-            storeAdressChoice.setValue(address);
-            bookNameChoice.setValue(medicine);
+            pharmacyAdressChoice.setValue(address);
+            medicineChoice.setValue(medicine);
             currentValueTF.setText(String.valueOf(value));
         }
     }
 
-    public void getValueOfBooks() {
-//        System.out.println("getValueOfBooks()");
-        if (bookNameChoice.getValue() != null && storeAdressChoice != null &&
-                !bookNameChoice.getValue().trim().equals("") && !storeAdressChoice.getValue().trim().equals("")) {
+    public void getValueOfMedicine() {
+        if (medicineChoice.getValue() != null && pharmacyAdressChoice != null &&
+                !medicineChoice.getValue().trim().equals("") && !pharmacyAdressChoice.getValue().trim().equals("")) {
 
 //            System.out.println("if-else: CHECK");
 
@@ -100,8 +99,8 @@ public class DialogUpdateRecordsController implements Initializable {
                  PreparedStatement preparedStatement = connection.prepareStatement(
                          "SELECT количество_препаратов FROM учет WHERE название_препарата = ? AND адрес_аптеки = ?")) {
 
-                medicineName = bookNameChoice.getValue();
-                pharmacyAddress = storeAdressChoice.getValue();
+                medicineName = medicineChoice.getValue();
+                pharmacyAddress = pharmacyAdressChoice.getValue();
 
                 preparedStatement.setString(1, medicineName);
                 preparedStatement.setString(2, pharmacyAddress);
@@ -113,7 +112,6 @@ public class DialogUpdateRecordsController implements Initializable {
                         currentValueTF.setText(String.valueOf(bookCount));
                         value = bookCount;
                         newRecord = false;
-//                        System.out.println("Количество книг: " + bookCount);
                     } else {
                         currentValueTF.setText("0");
                         value = 0;
@@ -133,7 +131,7 @@ public class DialogUpdateRecordsController implements Initializable {
     @FXML
     private void onActionBottomAdd(ActionEvent event) {
         String quantityText = valueTF.getText();
-        if (!quantityText.isEmpty() && bookNameChoice.getValue() != null && storeAdressChoice.getValue() != null) {
+        if (!quantityText.isEmpty() && medicineChoice.getValue() != null && pharmacyAdressChoice.getValue() != null) {
             try {
                 connection = clientPostgreSQL.getConnection();
                 int quantity = Integer.parseInt(quantityText);
@@ -146,19 +144,16 @@ public class DialogUpdateRecordsController implements Initializable {
                 int newValue = value + quantity;
                 if (newValue < 0) {
                     MyAlerts.showInfoAlert("Недостаточно препаратов в магазине");
-//                    showInfoAlert("Недостаточно книг в магазине");
-//                    new Alert(Alert.AlertType.WARNING, "Недостаточно книг в магазине").showAndWait();
                 } else {
                     if (!newRecord) {
                         String updateQuery = "UPDATE учет SET количество_препаратов = " + newValue + " WHERE название_препарата = '" + medicineName + "' AND адрес_аптеки = '" + pharmacyAddress + "'";
-//                    System.out.println("количество_книг = " + newValue + " WHERE название_книги = '" + bookName + "' AND адрес_магазина = '" + storeAddress + "'");
                         ClientPostgreSQL.getInstance().simpleQuery(selectedTable, updateQuery);
 
                         MyAlerts.showInfoAlert("Запись успешно обновлена!");
                         showTable();
                     } else {
                         String addQueryTemplate = "INSERT INTO учет (название_препарата, адрес_аптеки, количество_препаратов) VALUES ('%s', '%s', %s)";
-                        String addQueryFinal = String.format(addQueryTemplate, bookNameChoice.getValue(), storeAdressChoice.getValue(), newValue);
+                        String addQueryFinal = String.format(addQueryTemplate, medicineChoice.getValue(), pharmacyAdressChoice.getValue(), newValue);
                         ClientPostgreSQL.getInstance().simpleQuery(selectedTable, addQueryFinal);
 
                         MyAlerts.showInfoAlert("Запись успешно обновлена!");
@@ -167,7 +162,6 @@ public class DialogUpdateRecordsController implements Initializable {
                 }
 
             } catch (SQLException | NumberFormatException e) {
-//                e.printStackTrace();
                 MyAlerts.showErrorAlert("Ошибка при обновлении записи!");
             } finally {
                 try {

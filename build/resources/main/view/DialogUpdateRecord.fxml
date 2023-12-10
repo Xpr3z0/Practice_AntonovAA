@@ -11,8 +11,8 @@
             <right>
                 <VBox fx:id="valuesVbox" alignment="CENTER_LEFT" fillWidth="false" prefWidth="275.0" spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-                  <ChoiceBox fx:id="storeAdressChoice" prefWidth="180.0" />
-                  <ChoiceBox fx:id="bookNameChoice" layoutX="20.0" layoutY="64.0" prefWidth="180.0" />
+                  <ChoiceBox fx:id="pharmacyAdressChoice" prefWidth="180.0" />
+                  <ChoiceBox fx:id="medicineChoice" layoutX="20.0" layoutY="64.0" prefWidth="180.0" />
                   <TextField fx:id="currentValueTF" editable="false" focusTraversable="false" layoutX="20.0" layoutY="134.0" prefWidth="180.0" />
                         <HBox alignment="CENTER_LEFT" prefHeight="26.0" spacing="10.0">
                             <children>
@@ -39,15 +39,15 @@
             <left>
                 <VBox alignment="CENTER_RIGHT" prefWidth="275.0" spacing="15.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label text="Адрес магазина">
+                        <Label text="Адрес аптеки">
                             <font>
                                 <Font size="15.0" />
                             </font></Label>
-                        <Label layoutX="144.0" layoutY="85.0" text="Название книги">
+                        <Label layoutX="144.0" layoutY="85.0" text="Название препарата">
                             <font>
                                 <Font size="15.0" />
                             </font></Label>
-                        <Label layoutX="222.0" layoutY="214.0" text="Текущее количество книг">
+                        <Label layoutX="222.0" layoutY="214.0" text="В наличии">
                             <font>
                                 <Font size="15.0" />
                             </font></Label>
@@ -55,7 +55,7 @@
                             <font>
                                 <Font size="15.0" />
                             </font></Label>
-                  <Label fx:id="valueLabel" layoutX="160.0" layoutY="139.0" text="Количество книг для продажи">
+                  <Label fx:id="valueLabel" layoutX="160.0" layoutY="139.0" text="Количество для продажи">
                      <font>
                         <Font size="15.0" />
                      </font>
